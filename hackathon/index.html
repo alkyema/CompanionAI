@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Interface</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
+</head>
+<body>
+    <!-- Fullscreen background video -->
+    <video class="background-video" autoplay loop muted>
+        <source src="avtar_video.webm" type="video/webm">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Cloud for chatbot response -->
+    <div class="cloud" id="cloud">
+        <!-- Chatbot response in the cloud -->
+        <div class="cloud-text" id="cloud-text"></div>
+    </div>
+    
+
+    <!-- Chat Interface -->
+    <div class="chat-container">
+        <div class="chat-area">
+            <div class="chat-header">
+                <div class="user-info">
+                    <img src="avatar.jpg" alt="Profile" class="profile-pic">
+                    <span>Welcome back, Satwik!</span>
+                </div>           
+            </div>
+
+            <div class="chat-messages" id="chat-messages">
+            </div>
+
+            <div class="chat-input">
+                <input type="text" placeholder="Type or speak your message..." id="chat-input-field">
+                <button id="mic-button"><i class="fas fa-microphone"></i></button>
+                <button id="send-button"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    
+
+</body>
+</html>

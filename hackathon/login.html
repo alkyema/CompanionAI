@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form action="#" id="login-form">
+                <h1>Create Account</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email for registration</span>
+                <input type="text" placeholder="Full Name" id = "name" required/>
+                <input type="email" placeholder="Email" id = "email_signup" required/>
+                <input type="password" placeholder="Password" id = "password_signup" required/> 
+                <input type="text" placeholder="Contact no." id = "contact" required />
+                <button id="signInButton" onclick = "signup()">Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form action="#">
+                <h1>Sign in</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your account</span>
+                <input type="email" placeholder="Email" id = "email" />
+                <input type="password" placeholder="Password" id = "password"/>
+                <a href="#">Forgot your password?</a>
+                <button id="signInButton"  onclick="login()">Sign In</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <!-- <h1>Welcome Back!</h1>
+                    <p>To keep connected with us please login with your personal info</p> -->
+                    <video class="login-video" autoplay unmuted >
+                        <source src="Untitled Video (2).webm" type="video/webm">
+                    </video>
+                    <button class="ghost" id="signIn">Sign In</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <video class="login-video" autoplay  unmuted >
+                        <source src="Untitled Video (2).webm" type="video/webm">
+                    </video>
+                    <button class="ghost" id="signUp">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        let auth0Client = null;
+
+        async function configureClient() {
+            auth0Client = await createAuth0Client({
+                domain: "dev-3c24zvs84bcj8jcj.us.auth0.com", 
+                client_id: "c4LSSzSfXZ54WEWRIxV94To7AJkz8Eru",
+                redirect_uri: window.location.origin, 
+            });
+        }
+
+        async function checkAuthentication() {
+            const isAuthenticated = await auth0Client.isAuthenticated();
+
+            if (isAuthenticated) {
+                window.location.href = "index.html";
+            } else {
+                document.querySelector(".container_login").style.display = "block";
+            }
+        }
+
+
+        async function login() {
+            await auth0Client.loginWithRedirect();
+        }
+
+        async function logout() {
+            await auth0Client.logout({
+                returnTo: window.location.origin,
+            });
+        }
+
+        async function handleRedirectCallback() {
+            const query = window.location.search;
+
+            if (query.includes("code=") && query.includes("state=")) {
+                await auth0Client.handleRedirectCallback();
+                window.location.href = "index.html"; 
+            }
+        }
+
+        const signUpButton = document.getElementById('signUp');
+const signInButton = document.getElementById('signIn');
+const container = document.getElementById('container');
+
+signUpButton.addEventListener('click', () => {
+	container.classList.add("right-panel-active");
+});
+
+signInButton.addEventListener('click', () => {
+	container.classList.remove("right-panel-active");
+});
+
+
+var LoginAPI = "http://127.0.0.1:8888/login"
+
+async function Login(UserId, Password) {
+    try {
+        const Authorization_Token = await fetchAndLogJson('data.json');
+
+        const Cred = {
+            userID: UserId,
+            Password: Password
+        };
+
+        const response = await fetch(LoginAPI, {
+            method: "POST",
+            headers: {
+                'Authorization': `Bearer ${Authorization_Token['login_Token']}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(Cred),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+
+        return data;
+
+    } catch (error) {
+        console.error("Error:", error);
+        return { success: false }; 
+    }
+}
+
+const jsonUrl = 'data.json';
+var Authorization_Token = "";
+
+async function fetchAndLogJson(url) {
+    try {
+        const response = await fetch(url, { method: 'GET',headers: {'Content-Type': 'application/json'} } );
+
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+
+        data = await response.json();
+        return data
+
+    } catch (error) {
+        console.error('Error fetching JSON:', error);
+    }
+}
+
+
+async function login(){
+            event.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const result = await Login(email, password);
+            console.log("called");
+            if (result === true) {
+                localStorage.setItem("isLoggedIn", "true");
+
+                window.location.href = "index.html";
+
+            } else {
+                alert("Invalid Username/Email or password. Please try again.");
+            }
+        }
+
+var signupAPI = "http://127.0.0.1:8888/singup"
+    
+async function signup() {
+    event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const email_signup = document.getElementById("email_signup").value;
+            const contact = document.getElementById("contact").value;
+            const password_signup = document.getElementById("password_signup").value;
+
+            const result = await signupuser(name,password_signup,email_signup, contact);
+            console.log("called signup");
+
+            if(result === "Document successfully written!"){
+
+                window.location.href = "login.html";
+
+        }else if(result === "ID Already Exists"){
+            alert("Email Already Exists");
+        }
+
+    }
+
+async function signupuser(Username,Password,Email,Contact) {
+    
+    try {
+        const Authorization_Token = await fetchAndLogJson(jsonUrl);
+
+        const Cred = {
+            Username : Username,
+            Password : Password,
+            Email: Email,
+            Contact :Contact
+        };
+        console.log(Cred);
+        const response = await fetch(signupAPI, {
+            method: "POST",
+            headers: {
+                'Authorization': `Bearer ${Authorization_Token['singup_Token']}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(Cred),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+
+    } catch (error) {
+        console.error("Error:", error);
+        return { success: false }; 
+    }
+}
+
+    </script>
+</body>
+
+</html>
