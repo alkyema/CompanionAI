@@ -6,8 +6,7 @@ model_id = r"C:\Users\satwi\Downloads\CompanionAI\merged_model"
 
 device = f'cuda:{cuda.current_device()}' if cuda.is_available() else 'cpu'
 print(device)
-# set quantization configuration to load large model with less GPU memory
-# this requires the `bitsandbytes` library
+
 bnb_config = transformers.BitsAndBytesConfig(
     load_in_4bit=True,
     bnb_4bit_quant_type='nf4',
@@ -44,7 +43,7 @@ query_pipeline = transformers.pipeline(
 def generate_response(input_text):
     time_start = time()
     print("called")
-    # Generate sequences
+
     sequences = query_pipeline(
         input_text,
         do_sample=True,
@@ -54,13 +53,13 @@ def generate_response(input_text):
         max_length=200,
     )
 
-    # Print the generated sequences
+
     for seq in sequences:
         parts = seq['generated_text'].split('\n', 1)
         if len(parts) > 1:
             cleaned_text = parts[1]
         else:
-            cleaned_text = ''  # If there is no newline, return an empty string
+            cleaned_text = ''  
 
         print(cleaned_text)
         return "It is important to recognize that these feelings are not a reflection of your worth as a person, and that there are many people who care about you and want to help."

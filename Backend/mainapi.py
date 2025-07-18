@@ -3,13 +3,9 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer
 
-# from Appliance import Appliance_Reading,Appliance_writing
-# from Sensor_Data import fetch_latest_data,get_all_data,get_temperature_stats
-# from Wheather_Data_Retrive import weather_Daily,weather_Weekly,getaverage_weather_Temperature
 from login_and_sign_up import check,New_User,changePassword
-# from Mail_Sending import GenerateMail,verifyOTP
-# from PassGenerator import Token_check,New_Token
 from generate import generate_response
+
 import dotenv
 dotenv.load_dotenv()
 import os
@@ -22,7 +18,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Replace with your frontend origin
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -31,31 +27,6 @@ app.add_middleware(
 @app.get("/")
 def read_root():
     return {"Server": "Ready"}
-
-
-@app.get("/Applicances_data")
-# def Applicances_data(token: str = Depends(oauth2_scheme)):
-#     if token != os.getenv("Applicances_data_Token"):
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="Invalid or expired token",
-#             headers={"WWW-Authenticate": "Bearer"},
-#         )
-#     else:
-#         return Appliance_Reading()
-
-
-# @app.get("/tempAverage")
-# def tempAverage(token: str = Depends(oauth2_scheme)):
-#     if token != os.getenv("tempAverage_Token"):
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="Invalid or expired token",
-#             headers={"WWW-Authenticate": "Bearer"},
-#         )
-#     else:
-#         return get_temperature_stats()
-
 
 class toogle(BaseModel):
     Appliance_name: str
@@ -78,66 +49,6 @@ def apptoogle(toogle: toogle, request: Request,token: str = Depends(oauth2_schem
             print(ret)
             called = False
         return ret
-
-
-# @app.get("/wheather_daily")
-# def wheather_daily(token: str = Depends(oauth2_scheme)):
-#     if token != os.getenv("wheather_daily_Token"):
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="Invalid or expired token",
-#             headers={"WWW-Authenticate": "Bearer"},
-#         )
-#     else:
-#         return weather_Daily()
-
-
-# @app.get("/wheather_weekly")
-# def wheather_weekly(token: str = Depends(oauth2_scheme)):
-#     if token != os.getenv("wheather_weekly_Token"):
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="Invalid or expired token",
-#             headers={"WWW-Authenticate": "Bearer"},
-#         )
-#     else:
-#         return weather_Weekly()
-
-
-# @app.get("/Average_Temp_Day")
-# def Average_Temp_Day(token: str = Depends(oauth2_scheme)):
-#     if token != os.getenv("Average_Temp_Day_Token"):
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="Invalid or expired token",
-#             headers={"WWW-Authenticate": "Bearer"},
-#         )
-#     else:
-#         return getaverage_weather_Temperature()
-
-
-# @app.get("/all_sensor_report")
-# def sensor_report(token: str = Depends(oauth2_scheme)):
-#     if token != os.getenv("sensor_report_Token"):
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="Invalid or expired token",
-#             headers={"WWW-Authenticate": "Bearer"},
-#         )
-#     else:
-#         return get_all_data()
-
-
-# @app.get("/fetch_sensor_data")
-# def sensor_data(token: str = Depends(oauth2_scheme)):
-#     if token != os.getenv("sensor_data_Token"):
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="Invalid or expired token",
-#             headers={"WWW-Authenticate": "Bearer"},
-#         )
-#     else:
-#         return fetch_latest_data()
 
 
 class login_cred(BaseModel):
@@ -178,111 +89,5 @@ def singup(Register_User: Register_User, request: Request,token: str = Depends(o
         print(Register_User.Username,Register_User.Password,Register_User.Email,Register_User.Contact,Date_Created,LastLoggedIN)
         ret = New_User(Register_User.Username,Register_User.Password,Register_User.Email,Register_User.Contact,Date_Created,LastLoggedIN)
         print(ret)
-        return ret
-    
-    
-class genOTP(BaseModel):
-    Email: str
-
-@app.post("/generateOTP")
-def generateOTP(genOTP: genOTP, request: Request,token: str = Depends(oauth2_scheme)):
-    if token != os.getenv("generateOTP_Token"):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid or expired token",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    else:
-        print(genOTP.Email)
-        ret = GenerateMail(genOTP.Email)
-        print(ret)
-        return ret
-    
-    
-class verOTP(BaseModel):
-    verOTP: str
-
-@app.post("/OTPverify")
-def OTPverify(verOTP: verOTP, request: Request,token: str = Depends(oauth2_scheme)):
-    if token != os.getenv("verifyOTP_Token"):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid or expired token",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    else:
-        print(verOTP.verOTP)
-        ret = verifyOTP(verOTP.verOTP)
-        print(ret)
-        return ret
-    
-    
-class Tokenclass(BaseModel):
-    UserID: str
-
-@app.post("/generateToken")
-def generateToken(Tokenclass: Tokenclass, request: Request,token: str = Depends(oauth2_scheme)):
-    if token != os.getenv("generateToken_Token"):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid or expired token",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    else:
-        print(Tokenclass.UserID)
-        ret = New_Token(Tokenclass.UserID)
-        print(ret)
-        return ret
-
-
-class Tokencheck(BaseModel):
-    Token: str
-
-@app.post("/checkToken")
-def checkToken(Tokencheck: Tokencheck, request: Request,token: str = Depends(oauth2_scheme)):
-    if token != os.getenv("verifyToken_Token"):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid or expired token",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    else:
-        print(Tokencheck.Token)
-        ret = Token_check(Tokencheck.Token)
-        print(ret)
-        return ret
-    
-class genOTP(BaseModel):
-    Email: str
-
-@app.post("/forgotPasswordMail")
-def forgotPasswordMail(genOTP: genOTP, request: Request,token: str = Depends(oauth2_scheme)):
-    if token != os.getenv("forgotpassword_Token"):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid or expired token",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    else:
-        print(genOTP.Email)
-        ret = forgotPassword(genOTP.Email)
-        print(ret)
-        return ret
-    
-class new_pass(BaseModel):
-    Email: str
-    Password: str
-
-@app.post("/PasswordChange")
-def PasswordChange(new_pass: new_pass, request: Request,token: str = Depends(oauth2_scheme)):
-    if token != os.getenv("changedpassword_Token"):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid or expired token",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    else:
-        print((new_pass.Email,new_pass.Password))
-        ret = changePassword(new_pass.Email,new_pass.Password)
         return ret
     
