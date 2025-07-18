@@ -3,6 +3,11 @@
 **Companion AI** is a mental wellness chatbot powered by cutting-edge AI designed to assist individuals in overcoming **depression**, **anxiety**, and feelings of **loneliness**. More than just a chatbot, Companion AI is your **digital friend** — always available, empathetic, and ready to listen. It provides healthcare tips, mental wellness guidance, and even allows users to **book doctor appointments** directly from the platform.
 
 ---
+## 👥 Team Members
+
+- **Neeharika Joshi**  
+- **Satwik Kishore**
+---
 
 ## 🌟 Features
 
@@ -22,7 +27,7 @@
 |----------------|---------------------------|
 | Frontend       | React.js                  |
 | Backend        | Python                    |
-| AI Model       | LLaMA 3 (1.3B)            |
+| AI Model       | LLaMA 3.1B                |
 | Database       | Firebase                  |
 | Authentication | Python oAuth              |
 
@@ -33,10 +38,7 @@
 
 ### 🔐 Login & Signup Flow
 
-<video width="640" height="360" controls>
-  <source src="/Screen Recording 2025-07-18 113335.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[!Login and Signup](https://github.com/user-attachments/assets/e833cf27-996c-4dfa-ab71-ff7d6c58ad29)
 
 📍 *This video demonstrates the secure login and registration process.*
 
@@ -44,19 +46,16 @@
 
 ### 💬 Chatting with Companion AI
 
-<video width="640" height="360" controls>
-  <source src="/Screen Recording 2025-07-18 110755.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+
+[](https://github.com/user-attachments/assets/631ef023-8050-49af-bdd8-ac5a84a08e89)
+
+
 
 📍 *This video shows real-time interaction with the AI-based mental health assistant.*
 
 ---
 
-## 👥 Team Members
 
-- **Neeharika Joshi**  
-- **Satwik Kishore**
 
 Together, we aimed to build a safe and helpful environment where AI supports emotional well-being and personal growth.
 
