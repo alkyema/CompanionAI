@@ -66,8 +66,8 @@ Together, we aimed to build a safe and helpful environment where AI supports emo
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/Companion_AI.git
-cd Companion_AI
+git clone https://github.com/alkyema/CompanionAI.git
+cd CompanionAI
 ````
 
 ### 2. Install Dependencies
@@ -75,7 +75,7 @@ cd Companion_AI
 #### Frontend
 
 ```bash
-cd client
+cd FrontEnd
 npm install
 npm start
 ```
@@ -83,9 +83,9 @@ npm start
 #### Backend
 
 ```bash
-cd ../server
+cd ../Backend
 pip install -r requirements.txt
-python app.py
+uvicorn mainapi:app --reload --port 8888
 ```
 
 ### 3. Firebase Setup
@@ -93,8 +93,7 @@ python app.py
 * Create a Firebase project
 * Enable Authentication (Email/Password)
 * Set up Firestore Database
-* Update the Firebase configuration in the frontend (`client/src/firebase.js`)
-
+* Update the Firebase configuration in the Backend in .env file
 ---
 
 ## 🧠 AI Model (LLaMA 3 1.3B)
@@ -112,24 +111,8 @@ We use the **LLaMA 3 1.3B** model for generating context-aware, empathetic respo
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
 
 > 🌈 *Companion AI is not a replacement for professional medical advice. Always consult a healthcare provider if you are in crisis or need urgent medical support.*
 
-```
 
----
 
-### ✅ Final Note
-
-To complete this README:
-
-- Upload the two `.mp4` demo videos to **YouTube**, **Drive**, or any public host.
-- Replace `VIDEO_ID_1` and `VIDEO_ID_2` in the embedded video links with the actual video IDs or URLs.
-
-Let me know if you want me to help you host these videos or add Firebase setup instructions step-by-step!
-```
